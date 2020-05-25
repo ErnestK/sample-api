@@ -1,16 +1,19 @@
 Rails.application.routes.draw do
-  resources :trades, only: [:index, :create] do
-    get 'erase', on: :collection
-  end
+  delete 'erase' => 'trades#erase'
 
-  namespace :trades do
-    resources :users, only: [:show]
-  end
+  resources :trades, only: [:index, :create]
+
+  # namespace :trades do
+  #   resources :users, only: [:show]
+  # end
+  # by task I should create routes as above but tests check for route as below :(
+  # its also reason why I named it show
+  get 'users/:id/trades', to: 'users#show'
 
   namespace :stocks do
-    get ':stock_symbol/price', to: 'stats#search'
+    get ':stock_symbol/price', to: 'stats#price'
 
-    resources :stats, only: [:show]
+    get 'stats', to: 'stats#search'
   end
 
   # get 'stocks/:stock_symbol/trades' =>
