@@ -1,4 +1,17 @@
 Rails.application.routes.draw do
+  resources :trades, only: [:index, :create] do
+    get 'erase', on: :collection
+  end
+
+  namespace :trades do
+    resources :users, only: [:show]
+  end
+
+  namespace :stocks do
+    get ':stock_symbol/price', to: 'stats#search'
+
+    resources :stats, only: [:show]
+  end
 
   # get 'stocks/:stock_symbol/trades' =>
   # The priority is based upon order of creation: first created -> highest priority.
